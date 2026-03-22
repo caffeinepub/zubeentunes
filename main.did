@@ -1,0 +1,39 @@
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type Song = 
+ record {
+   album: text;
+   durationSeconds: nat;
+   id: nat;
+   releaseDate: text;
+   title: text;
+ };
+type PlaylistInfo = 
+ record {
+   id: nat;
+   name: text;
+   songCount: nat;
+ };
+service : {
+  _initializeAccessControlWithSecret: (userSecret: text) -> ();
+  addFavorite: (songId: nat) -> ();
+  addToPlaylist: (playlistId: nat, songId: nat) -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createPlaylist: (name: text) -> (nat);
+  deletePlaylist: (playlistId: nat) -> ();
+  getAlbums: () -> (vec text) query;
+  getAllSongs: () -> (vec Song) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getFavorites: () -> (vec nat) query;
+  getMyPlaylists: () -> (vec PlaylistInfo) query;
+  getPlaylistSongs: (playlistId: nat) -> (vec Song) query;
+  getSongsByAlbum: (albumName: text) -> (vec Song) query;
+  isCallerAdmin: () -> (bool) query;
+  removeFavorite: (songId: nat) -> ();
+  removeFromPlaylist: (playlistId: nat, songId: nat) -> ();
+  searchSongs: (term: text) -> (vec Song) query;
+}
